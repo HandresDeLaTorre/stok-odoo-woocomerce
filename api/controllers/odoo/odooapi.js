@@ -129,10 +129,8 @@ const fields = async (domain, type) => {
 const searchProduct = async (ref) => {
     await odoo.connect();
     const productRef = await odoo.search(`product.template`, {default_code:ref});
-    const productData = await odoo.read('product.template', [parseInt(productRef[0])])
-    //console.log(productData);
-    return productData
-}
+    return await odoo.read('product.template', [parseInt(productRef[0])])
+} 
 
 //readContacts()
 
