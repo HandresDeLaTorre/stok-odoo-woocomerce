@@ -8,12 +8,19 @@ const Odoo = require('odoo-await');
 
 
 const odoo = new Odoo({
-    baseUrl: process.env.PRODUODOOBASEURL,
-    db: process.env.PRODUODOODB,
-    port: process.env.PRODUODOOPORT,
-    username: process.env.PRODUODOOUSER,
-    password: process.env.PRODUODOOPSW,
+    //baseUrl: process.env.PRODUODOOBASEURL,
+    // db: process.env.PRODUODOODB,
+    // port: process.env.PRODUODOOPORT,
+    // username: process.env.PRODUODOOUSER,
+    // password: process.env.PRODUODOOPSW,
+    baseUrl: 'https://ropahermosa.iku.solutions',
+    db: 'ropahermosa.iku.solutions',
+    port: 443,
+    username: 'gerencia@ropahermosamujer.com',
+    password: 'def8ba9ec544cf6f39eb4f1abddb94ae38e2c3cf'
 })
+
+
 
 /**
  * Busqueda de un contacto con el campo email
@@ -97,13 +104,44 @@ const readContacts = async () => {
         console.error(e);
     }
 }
+/**
+ * 
+ * @param {string} domain -Dominio del campo que se busca
+ * @param {sting} type - Tipo del campo que se busca
+ * @returns 
+ */
+const fields = async (domain, type) => {
+   //console.log( '*** Esta es la API de Odoo***', odoo.baseUrl);
+    try {
+       await odoo.connect();
+       const fieldsName = await odoo.getFields(`${domain}.${type}`, ['required']);
+       //console.log(fieldsName);
+       return fieldsName
+    } catch (e) {
+        console.error(e); 
+    }
+}
+
+/**
+ * 
+ * @param {string} ref -referencia interna del Producto
+ */
+const searchProduct = async (ref) => {
+    await odoo.connect();
+    const productRef = await odoo.search(`product.template`, {default_code:ref});
+    const productData = await odoo.read('product.template', [parseInt(productRef[0])])
+    //console.log(productData);
+    return productData
+}
 
 //readContacts()
 
 //readContacts()
 module.exports = {
+    fields,
     searchContact,
     searchLead,
+    searchProduct,
     readContacts,
     readLeads,
     createContact,

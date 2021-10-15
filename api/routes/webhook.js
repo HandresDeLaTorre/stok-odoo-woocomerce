@@ -11,6 +11,10 @@ router.post('/pruebas', checkOrigin, webhook.postPruebas)
 
 router.post('/points', checkOrigin, webhook.pointschange)
 
+router.get('/fields/:domain/type/:type', webhook.fields)
+
+router.get('/product/:ref', webhook.getproduct)
+
 
 router.get('/', webhook.respuesta)
 

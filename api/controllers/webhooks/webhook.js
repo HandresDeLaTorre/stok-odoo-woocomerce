@@ -98,7 +98,32 @@ const postPruebas = async (req, res) => {
     }
 }
 
+const fields = async (req, res) => {
+    const {domain, type} = req.params
+    try {
+        const productfields = await odooApi.fields(domain, type)
+        const campos = Object.keys(productfields)
+        console.log(`**Este es el log desde el webhook `, campos);
+        res.status(201).send(campos)
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+const getproduct = async (req, res) => {
+    const {ref} = req.params;
+    try {
+        const product = await odooApi.searchProduct(ref);
+        const producto = JSON.stringify(product)
+        res.status(201).send(producto)
+    } catch (e) {
+        console.error(`*** Error ==> ${e}`)
+    }
+}
+
 module.exports = {
+    fields,
+    getproduct,
     pointschange,
     postPruebas,
     respuesta

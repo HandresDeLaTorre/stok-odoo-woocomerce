@@ -1,5 +1,5 @@
 {
-  "name": "mautic-webhook-odoo",
+  "name": "stok-odoo-woocomerce",
   "version": "1.0.0",
   "description": "Crear un webhook que crea los contactos en Odoo Desde Mautic.",
   "main": "app.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HandresDeLaTorre/Mautic-Webhook-Odoo.git"
+    "url": "git+https://github.com/HandresDeLaTorre/stok-odoo-woocomerce.git"
   },
   "keywords": [
     "Odoo",
@@ -20,13 +20,13 @@
   "author": "Handres De La Torre",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HandresDeLaTorre/Mautic-Webhook-Odoo/issues"
+    "url": "https://github.com/HandresDeLaTorre/stok-odoo-woocomerce/issues"
   },
-  "homepage": "https://github.com/HandresDeLaTorre/Mautic-Webhook-Odoo#readme",
+  "homepage": "https://github.com/HandresDeLaTorre/stok-odoo-woocomerce#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "odoo-await": "^2.3.0"
   }
-} 
+}
