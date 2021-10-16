@@ -110,21 +110,39 @@ const fields = async (req, res) => {
     }
 }
 
+
+
 const getproduct = async (req, res) => {
-    const {ref} = req.params;
+    const {barCode} = req.params;
     try {
-        const product = await odooApi.searchProduct(ref);
+        const product = await odooApi.searchProduct(barCode);
         const producto = JSON.stringify(product)
         res.status(201).send(producto)
     } catch (e) {
         console.error(`*** Error ==> ${e}`)
+        res.status(400).send(`*** Error ==> ${e}`)
     }
 }
+
+const searchProductBarcode = async (req, res) => {
+    const {barCode} = req.params;
+    try {
+        const product = await odooApi.searchCode(barCode);
+        const producto = JSON.stringify(product)
+        res.status(200).send(producto)
+    } catch (e) {
+        console.error(`*** Error ==> ${e}`)
+        res.status(400).send(`*** Error ==> ${e}`)
+    }
+}
+
+
 
 module.exports = {
     fields,
     getproduct,
     pointschange,
     postPruebas,
-    respuesta
+    respuesta,
+    searchProductBarcode
 }

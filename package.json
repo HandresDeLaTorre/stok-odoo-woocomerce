@@ -25,6 +25,7 @@
   "homepage": "https://github.com/HandresDeLaTorre/stok-odoo-woocomerce#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "csv-parser": "^3.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "odoo-await": "^2.3.0"

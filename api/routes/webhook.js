@@ -13,7 +13,9 @@ router.post('/points', checkOrigin, webhook.pointschange)
 
 router.get('/fields/:domain/type/:type', webhook.fields)
 
-router.get('/product/:ref', webhook.getproduct)
+router.get('/product/:barCode', webhook.getproduct)
+
+router.get('/searchproduct/:barCode', webhook.searchProductBarcode)
 
 
 router.get('/', webhook.respuesta)

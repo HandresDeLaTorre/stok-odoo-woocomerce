@@ -122,13 +122,18 @@ const fields = async (domain, type) => {
     }
 }
 
+const searchCode = async (barCode) => {
+    await odoo.connect();
+    return await odoo.search(`product.template`, {barcode:barCode});
+}
+
 /**
  * 
  * @param {string} ref -referencia interna del Producto
  */
-const searchProduct = async (ref) => {
+const searchProduct = async (barCode) => {
     await odoo.connect();
-    const productRef = await odoo.search(`product.template`, {default_code:ref});
+    const productRef = await odoo.search(`product.template`, {barcode:barCode});
     return await odoo.read('product.template', [parseInt(productRef[0])])
 } 
 
@@ -140,6 +145,7 @@ module.exports = {
     searchContact,
     searchLead,
     searchProduct,
+    searchCode,
     readContacts,
     readLeads,
     createContact,
