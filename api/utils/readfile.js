@@ -7,35 +7,21 @@ const csv = require('csv-parser');
 const fs = require('fs');
 //const results = [];
 
-const file = './file/Inventario-pruebas-API.csv';
-
-const fileread = [];
-
-const fileProducts = () => {
+const dataFile = (unarchivo) => {
   const results = [];
-  fs.createReadStream(file)
-  .pipe(csv())
-  .on('data', (data) => results.push(data))
-  .on('end', () => {
-    //console.log(results);
-  });
-  return results
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(unarchivo)
+    .on('error', error => {
+      reject(error);
+    })
+    .pipe(csv())
+    .on('data', (data) => results.push(data))
+    .on('end', () => {
+      resolve(results);
+    });
+  })
 }
 
-const readFileCsv = (fileCsv) => {
-  
-  const archivo = fs.createReadStream(fileCsv)
-  .pipe(csv())
-  .on('data', (data) => {
-    var newArray = fileread.push(data);
-  })
-  const archivoListo = archivo.on('end', () => {
-    //console.log(fileread);
-  });
-  return newArray;
-} 
- 
 module.exports = {
-  fileProducts,
-  readFileCsv
+  dataFile
 }

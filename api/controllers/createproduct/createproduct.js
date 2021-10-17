@@ -14,12 +14,12 @@
 const file = './file/Inventario-pruebas-API.csv';
 
 
-const readProducts = (req, res) => {
+const readProducts = async (req, res) => {
     // const productsForCreate = JSON.stringify(arrayProducts.fileProducts());
     // console.log(productsForCreate);
-    const productsForCreate = arrayProducts.readFileCsv(file)
-    console.log(productsForCreate.data );
-    res.status(200).send(productsForCreate.data)
+    const productsForCreate = await arrayProducts.dataFile(file)
+    console.log(productsForCreate );
+    res.status(200).send(productsForCreate)
 }
 
 module.exports = { 

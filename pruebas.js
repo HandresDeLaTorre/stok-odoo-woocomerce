@@ -1,25 +1,33 @@
 'use strict';
 
-const csv = require('csv-parser')
-const fs = require('fs')
-const results = [];
+const csv = require('csv-parser');
+const fs = require('fs');
 
-const file = './file/Inventario-pruebas-API.csv'
+const file = './file/Inventario-pruebas-API.csv';
 
-const arrayResultado = (unArchivo) => {
-
-  console.log(unArchivo);
-
-  const resultado = () => {
-    fs.createReadStream(unArchivo)
-  .pipe(csv())
-  .on('data', (data) => results.push(data))
-  .on('end', () => {
-    return results
- });
-}
-console.log('*** Este es el inicio de la data', resultado());
-//return results
+const getData = (unarchivo) => {
+  const results = [];
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(unarchivo)
+    .on('error', error => {
+      reject(error);
+    })
+    .pipe(csv())
+    .on('data', (data) => results.push(data))
+    .on('end', () => {
+      resolve(results);
+    });
+  })
 }
 
-arrayResultado(file) 
+const pruebaField = async () => {
+  try { 
+    const data = await getData(file, {});
+    console.log("testGetData: parsed CSV data:", data[0]);
+} catch (error) {
+    console.error("testGetData: An error occurred: ", error.message);
+}
+}
+
+pruebaField();
+
