@@ -8,16 +8,16 @@ const Odoo = require('odoo-await');
 
 
 const odoo = new Odoo({
-    //baseUrl: process.env.PRODUODOOBASEURL,
-    // db: process.env.PRODUODOODB,
-    // port: process.env.PRODUODOOPORT,
-    // username: process.env.PRODUODOOUSER,
-    // password: process.env.PRODUODOOPSW,
-    baseUrl: 'https://ropahermosa.iku.solutions',
-    db: 'ropahermosa.iku.solutions',
-    port: 443,
-    username: 'gerencia@ropahermosamujer.com',
-    password: 'def8ba9ec544cf6f39eb4f1abddb94ae38e2c3cf'
+    baseUrl: process.env.PRODUODOOBASEURL,
+    db: process.env.PRODUODOODB,
+    port: process.env.PRODUODOOPORT,
+    username: process.env.PRODUODOOUSER,
+    password: process.env.PRODUODOOPSW,
+    // baseUrl: 'https://ropahermosa.iku.solutions',
+    // db: 'ropahermosa.iku.solutions',
+    // port: 443,
+    // username: 'gerencia@ropahermosamujer.com',
+    // password: 'def8ba9ec544cf6f39eb4f1abddb94ae38e2c3cf'
 })
 
 
@@ -127,6 +127,54 @@ const searchCode = async (barCode) => {
     return await odoo.search(`product.template`, {barcode:barCode});
 }
 
+const createCategory = async (newCategory) => {
+    await odoo.connect();
+    return await odoo.create('product.category', {name: newCategory, parent_id:false});
+}
+
+const createSubCategory = async (newSubCategory, parent) => {
+    //const name = newSubCategory
+    await odoo.connect();
+    const parentId = await searchCategoryName(parent)
+    // console.log(`*log Desde odooapi; ${newSubCategory} y el parent ${parent}`);
+    // return parentId
+    
+    return await odoo.create('product.category', {name: newSubCategory, parent_id:parseInt(parentId)});
+}
+
+const searchCategoryNameComplete = async (nameCategory) => {
+    await odoo.connect();
+    // const categoryId = 
+    return await odoo.search(`product.category`, {complete_name:nameCategory });
+    //return await odoo.read(`product.category`, [parseInt(categoryId[0])])
+}
+
+const searchCategoryName = async (nameCategory) => {
+    await odoo.connect();
+    // const categoryId = 
+    return await odoo.search(`product.category`, {name:nameCategory });
+    //return await odoo.read(`product.category`, [parseInt(categoryId[0])])
+}
+
+const searchRead = async (domain, type) => {
+    await odoo.connect();
+    return await odoo.searchRead(`${domain}.${type}`);
+}
+
+const searchReadId = async (domain, type, id) => {
+    await odoo.connect();
+    return await odoo.read(`${domain}.${type}`, [parseInt(id)] , ['name', 'parent_id', 'child_id', 'complete_name']);
+}
+
+// const searchCategory = async ( ) => {
+//     await odoo.connect();
+//     //const productRef = 
+//     return await odoo.search(`product.category`, {name: 'Mujer'});
+//     ///return await odoo.search(`${domain}.${type}`, nameCategory);
+
+//     // return await odoo.read(`${domain}.${type}`, [parseInt(productRef[0])]) 
+// } 
+
 /**
  * 
  * @param {string} ref -referencia interna del Producto
@@ -137,6 +185,15 @@ const searchProduct = async (barCode) => {
     return await odoo.read('product.template', [parseInt(productRef[0])])
 } 
 
+const createProduct = async (product) => {
+    await odoo.connect();
+
+    return await odoo.create(`product.template`, product)
+}
+
+const deleteProduct = async (productId) => {
+    return await odoo.delete(`product.template`, productId )
+}
 //readContacts()
 
 //readContacts()
@@ -144,12 +201,21 @@ module.exports = {
     fields,
     searchContact,
     searchLead,
+    searchRead,
     searchProduct,
+    //searchQuery,
+    searchReadId,
     searchCode,
     readContacts,
     readLeads,
+    createProduct,
+    deleteProduct,
     createContact,
     createLead,
     updateLeads,
-    searchCountry
+    searchCountry,
+    createCategory,
+    createSubCategory,
+    searchCategoryName,
+    searchCategoryNameComplete
 }

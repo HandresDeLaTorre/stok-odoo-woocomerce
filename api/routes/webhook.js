@@ -13,6 +13,12 @@ router.post('/points', checkOrigin, webhook.pointschange)
 
 router.get('/fields/:domain/type/:type', webhook.fields)
 
+router.get('/search/:domain/type/:type', webhook.getRead)
+
+router.get('/searchid/:domain/type/:type/id/:id', webhook.getReadID)
+
+//router.get('/searchall', webhook.getQuery)
+
 router.get('/product/:barCode', webhook.getproduct)
 
 router.get('/searchproduct/:barCode', webhook.searchProductBarcode)

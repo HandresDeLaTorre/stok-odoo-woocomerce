@@ -103,7 +103,7 @@ const fields = async (req, res) => {
     try {
         const productfields = await odooApi.fields(domain, type)
         const campos = Object.keys(productfields)
-        console.log(`**Este es el log desde el webhook `, campos);
+        //console.log(`**Este es el log desde el webhook `, campos);
         res.status(201).send(campos)
     } catch (e) {
         console.error(e)
@@ -136,13 +136,51 @@ const searchProductBarcode = async (req, res) => {
     }
 }
 
+const getRead = async (req, res) => {
+    const {domain, type} = req.params;
+    try {
+        const dataSearch = await odooApi.searchRead(domain, type);
+        res.status(200).send(dataSearch)
+    } catch (e) {
+        console.error(`*** Error ==> ${e}`)
+        res.status(400).send(`*** Error ==> ${e}`)
+    }
+}
+
+
+const getReadID = async (req, res) => {
+    const {domain, type, id} = req.params;
+    try {
+        const dataSearch = await odooApi.searchReadId(domain, type, id);
+        res.status(200).send(dataSearch)
+    } catch (e) {
+        console.error(`*** Error ==> ${e}`)
+        res.status(400).send(`*** Error ==> ${e}`)
+    }
+}
+
+// const getQuery = async (req, res) => {
+//     const { nameQ1} = req.query;
+    
+//     try {
+//         console.log(nameQ1);
+//         const dataSearch = await odooApi.searchQuery();
+//         res.status(200).send(dataSearch)
+//     } catch (e) {
+//         console.error(`*** Error ==> ${e}`)
+//         res.status(400).send(`*** Error ==> ${e}`)
+//     }
+// }
 
 
 module.exports = {
     fields,
     getproduct,
+    //getQuery,
     pointschange,
     postPruebas,
     respuesta,
+    getRead,
+    getReadID,
     searchProductBarcode
 }
